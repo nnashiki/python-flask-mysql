@@ -1,5 +1,5 @@
 # Pythonは公式イメージ
-FROM python:3.5.2
+FROM python:3
 
 # オリジナルはJoshua Conner氏
 # MAINTAINER Joshua Conner <joshua.conner@gmail.com>
@@ -13,16 +13,19 @@ RUN apt-get upgrade -y
 RUN apt-get install -y 	vim \
 						sudo \
 						python3-dev \
+						# libmysqlclient-dev \
 						zlib1g-dev \
 						libsqlite3-dev \
 						libreadline6-dev \
 						libgdbm-dev \
 						libbz2-dev \
-						tk-dev
+						tk-dev \
+						mysql-client
 	
 # ユーザ作成
 RUN groupadd web
 RUN useradd -d /home/python -m python
+# RUN echo "python:passwd" | chpasswd
 
 # pipでインストール
 # virtualenv Pythonの仮想環境構築コマンド
@@ -32,15 +35,8 @@ RUN useradd -d /home/python -m python
 RUN pip install virtualenv \
 				ipython \
 				flake8 \
-                Flask
-
-# MySQLドライバ"mysql-connector-python"をインストール
-# pipのを使うとうまくいかない。
-# git cloneしてビルド、インストール
-RUN git clone https://github.com/mysql/mysql-connector-python.git
-WORKDIR mysql-connector-python
-RUN python ./setup.py build
-RUN python ./setup.py install
+                Flask \
+                mysqlclient
 
 # ユーザを変更
 USER python
@@ -64,7 +60,7 @@ RUN git clone https://github.com/Shougo/neobundle.vim /home/python/.vim/bundle/n
 # ポートを解放（Flaskのデフォルトのポート番号:5000）
 EXPOSE 5000
 # サーバ起動
-ENTRYPOINT ["/usr/local/bin/python", "/home/python/flask_sample.py"]
+# ENTRYPOINT ["/usr/local/bin/python", "/home/python/flask_sample.py"]
 
 # フレームワークを指定しない時や、サーバにログインしてから実行したい場合
-# ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]

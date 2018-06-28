@@ -1,16 +1,20 @@
+
 # ライブラリをインポート
 from flask import Flask, render_template, request, redirect, url_for
 
 # MySQLドライバはmysql.connector
-import mysql.connector
+import MySQLdb
 # Dockerを使う場合で、初期設定の場合hostは"192.168.99.100"
 # MySQLのユーザやパスワード、データベースはdocker-compose.ymlで設定したもの
-connector = mysql.connector.connect(
+connector = MySQLdb.connect(
             user='python',
-            password='python',
-            host='192.168.99.100',
-            database='sample')
+            passwd='python',
+            host='172.18.0.1',
+            port=3306,
+            db='sample',
+            charset='utf8')
 
+connector.ping(True)
 cursor = connector.cursor()
 cursor.execute("select * from users")
 
