@@ -101,7 +101,7 @@ def delete(pk):
 @app.route('/view/<pk>')
 def view(pk):
     """ 結果参照処理 """
-    return render_template('view.html', result={})
+    return render_template('view.html', result={'id':'1','title':'データ','img':'result/result.png'})
 
 
 
