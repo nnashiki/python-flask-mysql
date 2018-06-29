@@ -20,7 +20,8 @@ RUN apt-get install -y 	vim \
 						libgdbm-dev \
 						libbz2-dev \
 						tk-dev \
-						mysql-client
+						mysql-client \
+						python-tk
 	
 # ユーザ作成
 RUN groupadd web
@@ -36,7 +37,23 @@ RUN pip install virtualenv \
 				ipython \
 				flake8 \
                 Flask \
-                mysqlclient
+                mysqlclient \
+                click \
+                cycler \
+                itsdangerous \
+                Jinja2 \
+                kiwisolver \
+                MarkupSafe \
+                matplotlib \
+                numpy \
+                pandas \
+                pyparsing \
+                python-dateutil \
+                pytz \
+                scipy \
+                six \
+                Werkzeug
+
 
 # ユーザを変更
 USER python
