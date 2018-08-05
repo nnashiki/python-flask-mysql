@@ -6,6 +6,8 @@ matplotlib.use('Agg')
 
 from matplotlib import pyplot as plt
 fig = plt.figure()
+font = {"family":"Noto Sans CJK JP"}
+plt.rc('font', **font)
 
 from pandas.plotting import scatter_matrix
 import pandas as pd
@@ -18,10 +20,19 @@ def create_scatter(data):
     data = data.replace(',', '\t').replace(' ', '\t')
     df = pd.read_csv(io.StringIO(data), sep='\t')
     
-    fig = plt.figure()
+    # プロットを1つ作成
+    ax = fig.add_subplot(111)
 
-    # プロットマーカーの大きさ、色、透明度を変更
-    scatter_matrix(df, diagonal='kde', color='#AAAAFF', edgecolors='#0000FF', alpha=0.5)
+    # ラベルをつける
+    ax.set_xlabel('so')
+    ax.set_ylabel('hr')
+
+    # dfの中身を1つ1つ描画
+    for index, row in df.iterrows():
+        ax.scatter(row[1],row[2],alpha=0.5)
+        ax.annotate(row[0],xy=(row[1],row[2]),size=10)
+
+
     
     # ファイル名
     filename = time.strftime('%Y%m%d%H%M%S') + ".png"

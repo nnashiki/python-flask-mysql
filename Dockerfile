@@ -1,5 +1,5 @@
 # Pythonは公式イメージ
-FROM python:3
+FROM python:latest
 
 # オリジナルはJoshua Conner氏
 # MAINTAINER Joshua Conner <joshua.conner@gmail.com>
@@ -21,18 +21,20 @@ RUN apt-get install -y 	vim \
 						libbz2-dev \
 						tk-dev \
 						mysql-client \
-						python-tk
+						python-tk \
+						fonts-ipaexfont
 	
 # ユーザ作成
 RUN groupadd web
 RUN useradd -d /home/python -m python
-# RUN echo "python:passwd" | chpasswd
+RUN echo "python:passwd" | chpasswd
 
 # pipでインストール
 # virtualenv Pythonの仮想環境構築コマンド
 # flake8 コーディングスタイル/シンタックスのチェック
 # ipython Pythonのインタラクティブモード拡張
 # Flask Pytrhonの軽量フレームワーク
+RUN pip install -U pip
 RUN pip install virtualenv \
 				ipython \
 				flake8 \
@@ -53,6 +55,7 @@ RUN pip install virtualenv \
                 scipy \
                 six \
                 Werkzeug
+                #fclist
 
 
 # ユーザを変更
@@ -77,7 +80,7 @@ RUN git clone https://github.com/Shougo/neobundle.vim /home/python/.vim/bundle/n
 # ポートを解放（Flaskのデフォルトのポート番号:5000）
 EXPOSE 5000
 # サーバ起動
-# ENTRYPOINT ["/usr/local/bin/python", "/home/python/flask_sample.py"]
+ENTRYPOINT ["/usr/local/bin/python", "/home/python/run.py"]
 
 # フレームワークを指定しない時や、サーバにログインしてから実行したい場合
-ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+# ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
