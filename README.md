@@ -1,9 +1,12 @@
 # 起動の仕方
 docker-compose up -d --build
+http://localhost:5000/hello
+
+# 個別のアクセス
 docker ps -a
 docker exec -it python-flask-app bash
-/usr/local/bin/python /home/python/flask_sample.py
-http://localhost:5000/hello
+/usr/local/bin/python /home/python/run.py
+
 
 
 # python-bottle
